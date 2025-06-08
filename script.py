@@ -781,7 +781,7 @@ def main():
     prefer_sit = users[user][2]
     for idx, (account, password) in enumerate(total_accounts):
         monthly_hash = get_monthly_hash()
-        CDKEY = "996ac13d84"
+        CDKEY = "xxxxxxxxxx"
         if CDKEY == monthly_hash:
             print('CDKEY正确，进入程序抢座位！')
             try:
