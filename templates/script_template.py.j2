@@ -567,9 +567,16 @@ def prefer_whether(account, password, prefer_sit, reading_room, options):
     target_option = wait.until(EC.element_to_be_clickable((By.XPATH, "//li/span[text()='崇山校区图书馆']")))
     target_option.click()
     time.sleep(2)
-    # 确定自习室
-    driver.find_element(By.XPATH,
-                        '//*[@class="el-tooltip room-name item" and text()="{}"]'.format(reading_room)).click()
+    room_xpath = f'//*[contains(@class, "room-name") and contains(text(), "{reading_room}")]'
+    # 等待元素存在（而不是 clickable）
+    element = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, room_xpath))
+    )
+
+    # 滚动 + 强制点击
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+    time.sleep(0.5)
+    driver.execute_script("arguments[0].click();", element)
     # 检查是否全天可预约
     found_full_day = False
     try:
